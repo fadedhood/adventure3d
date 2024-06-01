@@ -1,14 +1,17 @@
 How to run:
 ------------------------------------------------
 In VS Code:
+------------------------------------------------
 
 -> clone the repo
 
 -> select your python interpreter as the venv
 
 -> Run Scene.py
+
 -------------------------------------------------
 If you don't have IDE (Only works on windows):
+-------------------------------------------------
 
 -> Pull the code
 
