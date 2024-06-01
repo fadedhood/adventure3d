@@ -18,4 +18,6 @@ If you don't have IDE (Only works on windows):
 
 -> go to root folder and type python Scene.py
 
+-> you can close cmd to exit, but if you want to exit gracefully from venv go to env/Script and type ./deactivate
+
 -------------------------------------------------
