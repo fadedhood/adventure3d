@@ -1,6 +1,5 @@
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import GeoMipTerrain
-from panda3d.core import KeyboardButton
+from panda3d.core import GeoMipTerrain, KeyboardButton, Texture, TextureStage, TexGenAttrib
 from direct.task import Task
 
 
@@ -8,10 +7,13 @@ class MyApp(ShowBase):
     def __init__(self):
         ShowBase.__init__(self)
 
-        # Load the terrain heightmap
+        self.terrain_texture = self.loader.loadTexture("Terrain\\DiffuseMaps\\forest_leaves_02_diffuse_1k.jpg")
+        self.terrain_texture.setWrapU(Texture.WMRepeat)
+        self.terrain_texture.setWrapV(Texture.WMRepeat)
+        ts = TextureStage('ts')
+
         self.terrain = GeoMipTerrain("terrain")
-        self.terrain_texture = self.loader.loadTexture("Terrain\Texture\envir-ground.jpg")
-        self.terrain.setHeightfield("Terrain\HeightMaps\ground.png")
+        self.terrain.setHeightfield("Terrain\\DisperseMaps\\forest_leaves_02_disp_1k.png")
         self.terrain.setBlockSize(32)
         self.terrain.setFactor(10)
         self.terrain.setFocalPoint(self.camera)
@@ -23,7 +25,10 @@ class MyApp(ShowBase):
         self.terrain_node.setSz(100)  # Adjust the Z-scale to exaggerate the height
 
         # Apply the texture to the terrain
-        self.terrain_node.setTexture(self.terrain_texture, 1)
+        self.terrain_node.setTexture(ts, self.terrain_texture)
+
+        scale_factor = 10.0  # Adjust this value to control the repetition rate
+        self.terrain_node.setTexScale(ts, scale_factor, scale_factor)
 
         # Optionally, add some lighting to the scene
         self.setupLights()
@@ -48,7 +53,7 @@ class MyApp(ShowBase):
 
     def initCamera(self):
         # Set initial camera position
-        self.camera.setPos(0, -100, 50)
+        self.camera.setPos(0, -300, 500)
         self.camera.lookAt(0, 0, 0)
 
         # Camera control parameters
