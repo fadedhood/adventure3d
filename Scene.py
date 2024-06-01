@@ -1,7 +1,8 @@
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import GeoMipTerrain, KeyboardButton, Texture, TextureStage, TexGenAttrib
+from panda3d.core import GeoMipTerrain, KeyboardButton, Texture, TextureStage, loadPrcFileData
 from direct.task import Task
 
+loadPrcFileData('', 'load-file-type p3assimp')
 
 class MyApp(ShowBase):
     def __init__(self):
@@ -53,7 +54,7 @@ class MyApp(ShowBase):
 
     def initCamera(self):
         # Set initial camera position
-        self.camera.setPos(0, -300, 500)
+        self.camera.setPos(0, -100, 200)
         self.camera.lookAt(0, 0, 0)
 
         # Camera control parameters
@@ -85,7 +86,14 @@ class MyApp(ShowBase):
 
             if self.win.move_pointer(0, self.win.get_x_size() // 2, self.win.get_y_size() // 2):
                 self.camera.setH(self.camera.getH() - (x - self.win.get_x_size() // 2) * self.mouseSensitivity)
-                self.camera.setP(self.camera.getP() - (y - self.win.get_y_size() // 2) * self.mouseSensitivity)
+                
+                newP = self.camera.getP() - (y - self.win.get_y_size() // 2) * self.mouseSensitivity
+                # Clamp the pitch value to be between -80 and 80 degrees
+                if newP < -80:
+                    newP = -80
+                elif newP > 80:
+                    newP = 80
+                self.camera.setP(newP)
 
             # Update the pointer to the center of the window
             self.win.move_pointer(0, self.win.get_x_size() // 2, self.win.get_y_size() // 2)
