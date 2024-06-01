@@ -10,8 +10,8 @@ class MyApp(ShowBase):
 
         # Load the terrain heightmap
         self.terrain = GeoMipTerrain("terrain")
-        self.terrain_texture = self.loader.loadTexture("env\Lib\site-packages\panda3d\models\maps\envir-ground.jpg")
-        self.terrain.setHeightfield("HeightMaps\ground.png")
+        self.terrain_texture = self.loader.loadTexture("Terrain\Texture\envir-ground.jpg")
+        self.terrain.setHeightfield("Terrain\HeightMaps\ground.png")
         self.terrain.setBlockSize(32)
         self.terrain.setFactor(10)
         self.terrain.setFocalPoint(self.camera)
@@ -52,7 +52,7 @@ class MyApp(ShowBase):
         self.camera.lookAt(0, 0, 0)
 
         # Camera control parameters
-        self.cameraSpeed = 50  # Movement speed
+        self.cameraSpeed = 200  # Movement speed
 
         # Mouse sensitivity
         self.mouseSensitivity = 0.2
