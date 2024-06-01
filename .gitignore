@@ -125,8 +125,6 @@ celerybeat.pid
 .env
 .venv
 venv/
-ENV/
-env/
 env.bak/
 venv.bak/
 
@@ -162,4 +160,3 @@ cython_debug/
 #.idea/
 
 #Gimp
-*.xcf
