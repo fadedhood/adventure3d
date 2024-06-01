@@ -1,7 +1,8 @@
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import GeoMipTerrain, KeyboardButton, Texture, TextureStage, TexGenAttrib
+from panda3d.core import GeoMipTerrain, KeyboardButton, Texture, TextureStage, loadPrcFileData
 from direct.task import Task
 
+loadPrcFileData('', 'load-file-type p3assimp')
 
 class MyApp(ShowBase):
     def __init__(self):
@@ -53,7 +54,7 @@ class MyApp(ShowBase):
 
     def initCamera(self):
         # Set initial camera position
-        self.camera.setPos(0, -300, 500)
+        self.camera.setPos(0, -100, 200)
         self.camera.lookAt(0, 0, 0)
 
         # Camera control parameters
