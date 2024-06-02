@@ -86,7 +86,14 @@ class MyApp(ShowBase):
 
             if self.win.move_pointer(0, self.win.get_x_size() // 2, self.win.get_y_size() // 2):
                 self.camera.setH(self.camera.getH() - (x - self.win.get_x_size() // 2) * self.mouseSensitivity)
-                self.camera.setP(self.camera.getP() - (y - self.win.get_y_size() // 2) * self.mouseSensitivity)
+                
+                newP = self.camera.getP() - (y - self.win.get_y_size() // 2) * self.mouseSensitivity
+                # Clamp the pitch value to be between -80 and 80 degrees
+                if newP < -80:
+                    newP = -80
+                elif newP > 80:
+                    newP = 80
+                self.camera.setP(newP)
 
             # Update the pointer to the center of the window
             self.win.move_pointer(0, self.win.get_x_size() // 2, self.win.get_y_size() // 2)
