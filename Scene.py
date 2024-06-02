@@ -1,5 +1,5 @@
 from direct.showbase.ShowBase import ShowBase
-from panda3d.core import GeoMipTerrain, KeyboardButton, Texture, TextureStage, loadPrcFileData
+from panda3d.core import GeoMipTerrain, KeyboardButton, Texture, TextureStage, loadPrcFileData, WindowProperties
 from direct.task import Task
 
 loadPrcFileData('', 'load-file-type p3assimp')
@@ -33,9 +33,11 @@ class MyApp(ShowBase):
 
         # Optionally, add some lighting to the scene
         self.setupLights()
-
         self.initCamera()
-        self.taskMgr.add(self.updateCamera, "updateCamera")
+        self.hideCursor()
+
+        self.accept("escape", self.showCursor)
+        self.accept("mouse1", self.hideCursor)
 
     def setupLights(self):
         from panda3d.core import DirectionalLight, AmbientLight, Vec4
@@ -84,22 +86,35 @@ class MyApp(ShowBase):
             x = md.get_x()
             y = md.get_y()
 
-            if self.win.move_pointer(0, self.win.get_x_size() // 2, self.win.get_y_size() // 2):
-                self.camera.setH(self.camera.getH() - (x - self.win.get_x_size() // 2) * self.mouseSensitivity)
+            self.camera.setH(self.camera.getH() - (x - self.win.get_x_size() // 2) * self.mouseSensitivity)
                 
-                newP = self.camera.getP() - (y - self.win.get_y_size() // 2) * self.mouseSensitivity
-                # Clamp the pitch value to be between -80 and 80 degrees
-                if newP < -80:
-                    newP = -80
-                elif newP > 80:
-                    newP = 80
-                self.camera.setP(newP)
+            newP = self.camera.getP() - (y - self.win.get_y_size() // 2) * self.mouseSensitivity
+            # Clamp the pitch value to be between -80 and 80 degrees
+            if newP < -80:
+                newP = -80
+            elif newP > 80:
+                newP = 80
+            self.camera.setP(newP)
 
             # Update the pointer to the center of the window
             self.win.move_pointer(0, self.win.get_x_size() // 2, self.win.get_y_size() // 2)
 
         # Return Task.cont to keep the task running
         return Task.cont
+    
+    def hideCursor(self):
+        # Hide the mouse cursor
+        properties = WindowProperties()
+        properties.setCursorHidden(True)
+        self.win.requestProperties(properties)
+        self.taskMgr.add(self.updateCamera, "updateCamera")
+
+    def showCursor(self):
+         # Show the mouse cursor
+        properties = WindowProperties()
+        properties.setCursorHidden(False)
+        self.win.requestProperties(properties)
+        self.taskMgr.remove("updateCamera")
 
 app = MyApp()
 app.run()
